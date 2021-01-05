@@ -8,6 +8,7 @@ from appium import webdriver
 import sys
 sys.path.append('C:/Users/HASEE/PycharmProjects/appium-muke/util')
 from util import read_init
+from util.get_by_local import GetByLocal
 
 def get_driver():
     capabilities = {
@@ -109,7 +110,6 @@ def get_driver_update():
     driver = webdriver.Remote("http://127.0.0.1:4723/wd/hub", capabilities)
     return driver
 
-#限定首次全新安装app左滑的次数
 
 
 if __name__ == '__main__':
@@ -120,21 +120,25 @@ if __name__ == '__main__':
     swipe_left_times = read_ini.get_value("install_mooc", "swipe_left_times")
     # str显式转换成int数据类型
     swipe_left_times = int(swipe_left_times)
+    # 限定首次全新安装app左滑的次数
     # 用for循环次数限定
     for i in range(swipe_left_times):
         swipe_left_test()
 
 
 #点击图片进入“立即体验”
-    driver.find_element_by_class_name('android.widget.ImageView').click()
+    #driver.find_element_by_class_name('android.widget.ImageView').click()
+    GetByLocal(driver).get_element('install_element','test_right_now').click()
 
 #调用升级按钮
     time.sleep(6)
-    driver.find_element_by_android_uiautomator('new UiSelector().text("现在升级")').click()
+    # driver.find_element_by_android_uiautomator('new UiSelector().text("现在升级")').click()
+    GetByLocal(driver).get_element('install_element','update_now').click()
 #点击未知源的安装按钮
     #需要切换视图否则Message: An element could not be located on the page using the given search parameters.
     #mCurrentFocus = {"com.android.packageinstaller" , "com.android.packageinstaller.PackageInstallerActivity"}
     time.sleep(2)
     driver_update = get_driver_update()
-    driver_update.find_element_by_id('com.android.packageinstaller:id/ok_button').click()
+    # driver_update.find_element_by_id('com.android.packageinstaller:id/ok_button').click()
+    GetByLocal(driver_update).get_element('install_element','ok_button')
 

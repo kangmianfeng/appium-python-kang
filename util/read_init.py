@@ -15,7 +15,7 @@ class ReadIni:
 
 	def read_ini(self):
 		read_ini = configparser.ConfigParser()
-		read_ini.read(self.file_path)
+		read_ini.read(self.file_path,encoding='utf-8')
 		return read_ini
 
 	#通过key获取对应的value
